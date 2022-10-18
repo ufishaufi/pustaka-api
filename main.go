@@ -56,12 +56,30 @@ func main() {
 		fmt.Println("=========================")
 	}
 
-	book.Title = "Man Tiger (Revised edition)"
-	err = db.Save(&book).Error
+	// ========
+	// UPDATE DATA
+	// ========
+
+	/*
+		book.Title = "Man Tiger (Revised edition)"
+		err = db.Save(&book).Error
+
+		if err != nil {
+			fmt.Println("=========================")
+			fmt.Println("Error updating book record")
+			fmt.Println("=========================")
+		}
+	*/
+
+	// ===========
+	// DELETE DATA
+	// ===========
+
+	err = db.Delete(&book).Error
 
 	if err != nil {
 		fmt.Println("=========================")
-		fmt.Println("Error updating book record")
+		fmt.Println("Error deleting book record")
 		fmt.Println("=========================")
 	}
 
