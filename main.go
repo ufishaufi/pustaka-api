@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"pustaka-api/book"
 	"pustaka-api/handler"
@@ -20,68 +19,31 @@ func main() {
 
 	db.AutoMigrate(&book.Book{})
 
-	// CRUD
+	bookRepository := book.NewRepository(db)
 
-	// ===========
-	// CREATE DATA
-	// ===========
 	/*
-		book := book.Book{}
-		book.Title = "Atomic habits"
-		book.Price = 120000
-		book.Discount = 15
-		book.Rating = 4
-		book.Description = "Buku self development tentang kebiasaan baik dan menghilangkan kebiasaan buruk"
+		books, err := bookRepository.FindAll()
 
-		err = db.Create(&book).Error
-
-		if err != nil {
-			fmt.Println("==========================")
-			fmt.Println("Error creating book record")
-			fmt.Println("==========================")
+		for _, book := range books {
+			fmt.Println("Title :", book.Title)
 		}
 	*/
 
-	// ========
-	// GET DATA
-	// ========
-
-	var book book.Book
-
-	err = db.Debug().Where("id = ?", 1).First(&book).Error
-
-	if err != nil {
-		fmt.Println("=========================")
-		fmt.Println("Error finding book record")
-		fmt.Println("=========================")
-	}
-
-	// ========
-	// UPDATE DATA
-	// ========
-
 	/*
-		book.Title = "Man Tiger (Revised edition)"
-		err = db.Save(&book).Error
+		book, err := bookRepository.FindByID(2)
 
-		if err != nil {
-			fmt.Println("=========================")
-			fmt.Println("Error updating book record")
-			fmt.Println("=========================")
-		}
+		fmt.Println("Title :", book.Title)
 	*/
 
-	// ===========
-	// DELETE DATA
-	// ===========
-
-	err = db.Delete(&book).Error
-
-	if err != nil {
-		fmt.Println("=========================")
-		fmt.Println("Error deleting book record")
-		fmt.Println("=========================")
+	book := book.Book{
+		Title:       "$100 Startup",
+		Description: "Good book",
+		Price:       95000,
+		Rating:      4,
+		Discount:    0,
 	}
+
+	bookRepository.Create(book)
 
 	router := gin.Default()
 
