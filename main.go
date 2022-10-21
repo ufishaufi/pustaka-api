@@ -20,6 +20,7 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
 
 	/*
 		books, err := bookRepository.FindAll()
@@ -35,15 +36,23 @@ func main() {
 		fmt.Println("Title :", book.Title)
 	*/
 
-	book := book.Book{
-		Title:       "$100 Startup",
-		Description: "Good book",
-		Price:       95000,
-		Rating:      4,
-		Discount:    0,
+	/*
+		book := book.Book{
+			Title:       "$100 Startup",
+			Description: "Good book",
+			Price:       95000,
+			Rating:      4,
+			Discount:    0,
+		}
+	*/
+
+	bookRequest := book.BookRequest{
+		Title: "Gundam",
+		Price: "100000",
 	}
 
-	bookRepository.Create(book)
+	// bookRepository.Create(book)
+	bookService.Create(bookRequest)
 
 	router := gin.Default()
 
