@@ -21,6 +21,7 @@ func main() {
 
 	bookRepository := book.NewRepository(db)
 	bookService := book.NewService(bookRepository)
+	bookHandler := handler.NewBookHandler(bookService)
 
 	/*
 		books, err := bookRepository.FindAll()
@@ -46,24 +47,26 @@ func main() {
 		}
 	*/
 
-	bookRequest := book.BookRequest{
-		Title: "Gundam",
-		Price: "100000",
-	}
+	/*
+		bookRequest := book.BookRequest{
+			Title: "Gundam",
+			Price: "100000",
+		}
 
-	// bookRepository.Create(book)
-	bookService.Create(bookRequest)
+		// bookRepository.Create(book)
+		bookService.Create(bookRequest)
+	*/
 
 	router := gin.Default()
 
 	v1 := router.Group("/v1")
 
-	v1.GET("/", handler.RootHandler)
-	v1.GET("/hello", handler.HelloHandler)
-	v1.GET("/books/:id/:title", handler.BooksHandler)
-	v1.GET("/query", handler.QueryHandler)
+	v1.GET("/", bookHandler.RootHandler)
+	v1.GET("/hello", bookHandler.HelloHandler)
+	v1.GET("/books/:id/:title", bookHandler.BooksHandler)
+	v1.GET("/query", bookHandler.QueryHandler)
 
-	v1.POST("/books", handler.PostBooksHandler)
+	v1.POST("/books", bookHandler.PostBooksHandler)
 
-	router.Run(":8888")
+	router.Run()
 }
